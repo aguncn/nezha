@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>test</title>
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
+    </head>
+    <body>
+        <form method="post" id="k8s-form" onsubmit="return check()">
+            namespace:<input type="text"  value="default"  id="podNs">
+            podName:<input  type="text" value="hello-spring-5cbbc4b86b-pfrw6" id="podName">
+            containerName:<input  type="text" value="hello-spring" id="containerName">
+            <!--<input type="hidden" id="token" value="KJHIU77ukj" />-->
+             
+            <input id="ssh" type="button" value="ssh">
+        </form>
+        <script>
+            $(document).ready(function () {
+                $("#ssh").click(function() {
+                    //var token = document.getElementById("token").value;
+                    //Cookies.set('k8s-access-token', token)
+                    // 获取要连接的容器信息
+                    var proto = window.location.protocol
+                    var host = window.location.host
+                    console.log(proto, host)
+                    var hostDomain = `${proto}//${host}`
+                    var podNs = document.getElementById("podNs").value;
+                    var podName = document.getElementById("podName").value;
+                    var containerName = document.getElementById("containerName").value;
+                    var url =`${hostDomain}/?namespace=${podNs}&pod=${podName}&container=${containerName}`;
+                    window.open(url);
+                });
+            });
+             
+        </script>
+    </body>
+</html>

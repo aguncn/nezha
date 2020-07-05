@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.bootcss.com/xterm/3.14.5/xterm.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/xterm/3.14.5/xterm.min.js"></script>
+    <script src="https://cdn.bootcss.com/xterm/3.14.5/addons/fit/fit.min.js"></script>
+    <script src="https://cdn.bootcss.com/xterm/3.14.5/addons/webLinks/webLinks.min.js"></script>
+     
+    <style>
+        body {
+            margin: 0;
+        }
+        #terminal {
+            height: 80vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body>
+
+<div id="terminal"></div>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/js-cookie/2.2.1/js.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+<script>
+ 
+$(document).ready(function () {
+     
+    $('[rel="tooltip"]').tooltip();
+ 
+    $("#terminal").val("");
+    //var userToken = Cookies.get('k8s-access-token')
+    /*
+    后端验证权限，放在这里验证，对于高手是没有用的。
+        var accessUrl = `http://localhost:8080/test.html?name=${userToken}`
+        $.ajax({
+            url: accessUrl,
+            method: 'GET',
+            success: function(data) {
+                console.log('success!')
+                openTerminal()
+            },
+            error: function(xhr) {
+                console.log(accessUrl);
+                // 导致出错的原因较多，以后再研究
+                alert('error:' + JSON.stringify(xhr));
+            }
+        });
+    */
+     
+    // 获取要连接的容器信息
+    const param = {
+        namespace: getUrlParam('namespace'),
+        pod: getUrlParam('pod'),
+        container: getUrlParam('container') // must have this arg
+    }
+    document.title = `${param.container}@${param.pod}@${param.namespace}`
+    // 建立websocket连接
+    const wsUrl = `ws://${location.host}/terminal`
+    //const url = `${wsUrl}?userToken=${userToken}&namespace=${param.namespace}&pod=${param.pod}&container=${param.container}`
+    const url = `${wsUrl}?namespace=${param.namespace}&pod=${param.pod}&container=${param.container}`
+    ws = new WebSocket(url)
+    // 创建终端
+    // xterm配置自适应大小插件
+    Terminal.applyAddon(fit);
+     
+    //Terminal.applyAddon(winptyCompat)
+    Terminal.applyAddon(webLinks)
+    const scrollBack = getUrlParam('scrollBack') || 1000
+         
+    const term = new Terminal({
+        cursorBlink: true,
+        scrollback: scrollBack,
+        disableStdin: false
+    })
+     
+    openTerminal(term, ws);
+         
+    // 新建终端
+    function openTerminal(term, ws) {
+        term.open(document.getElementById('terminal'))
+        term.setOption('fontSize', 14)
+     
+        // 使用fit插件自适应terminal size
+        term.fit()
+        term.webLinksInit()
+        // 取得输入焦点
+        term.focus()
+         
+        ws.onopen = function(event) {
+            console.log("onopen")
+        }
+        ws.onclose = function(event) {
+            console.log("onclose")
+            alert('操作结束，远程关闭连接。')
+        }
+        ws.onmessage = function(event) {
+            // 服务端ssh输出, 写到web shell展示
+            term.write(event.data)
+        }
+        ws.onerror = function(event) {
+            console.log("onerror")
+            alert('远程连接错误。')
+        }
+ 
+        // 当浏览器窗口变化时, 重新适配终端
+        window.addEventListener("resize", function () {
+            term.fit()
+            // 把web终端的尺寸term.rows和term.cols发给服务端, 通知sshd调整输出宽度
+            var msg = {type: "resize", rows: term.rows, cols: term.cols}
+            ws.send(JSON.stringify(msg))
+ 
+            console.log(term.rows + "," + term.cols)
+        })
+ 
+        // 当向web终端敲入字符时候的回调
+        term.on('data', function(input) {
+                var msg = {type: "input", input: input}
+            // 写给服务端, 由服务端发给container
+            ws.send(JSON.stringify(msg))
+        })
+    }
+     
+    function getUrlParam(name) {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")
+        let r = window.location.search.substr(1).match(reg)
+        if (r != null) return unescape(r[2])
+        return null
+    }
+})
+ 
+</script>
+</body>
+</html>

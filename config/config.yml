@@ -1,0 +1,24 @@
+server:
+  port: 8000
+  read-timeout: 60
+  write-timeout: 60
+
+app:
+  #run-mode:debug/release
+  run-mode: debug
+  pagesize: 10
+  log-path: ../log/debug.log
+  identity-key: idname
+
+database:
+  type: mysql
+  user: gin-vue-nezha
+  password: gin-vue-nezha@123
+  host: 127.0.0.1:3306
+  name: gin-vue-nezha
+  table-prefix: nezha_
+
+harbor:
+  api-addr: http://192.168.1.111:8089/api/repositories
+  user: admin
+  password: password
