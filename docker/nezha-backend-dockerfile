@@ -1,0 +1,10 @@
+FROM alpine:3.11
+
+MAINTAINER aguncn@163.com
+# docker build –t 192.168.1.111:8089/nezha/nezha-backend:v0.1 .
+
+COPY bin /app/bin
+COPY Config /app/Config
+COPY log /app/log
+
+CMD ["sh", "-c", "/app/bin/run.sh" ]

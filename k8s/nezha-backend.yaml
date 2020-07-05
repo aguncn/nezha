@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nezha-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nezha-backend
+      version: v0.1
+  template:
+    metadata:
+      labels:
+        name: nezha-backend
+        version: v0.1
+    spec:
+      containers:
+        - name: nginx
+          image: 192.168.1.111:8089/nezha/nezha-backend:v0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          # command: ["sh","-c","while true;do date;sleep 1;done"]
+          env:
+            - "name": "GIN_MODE"
+              "value": "release"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nezha-backend
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30088
+      protocol: TCP
+  type: NodePort
+  selector:
+    name: nezha-backend
+    version: v0.1

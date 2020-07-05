@@ -1,0 +1,5 @@
+FROM nginx:1.18-alpine
+# docker build –t 192.168.1.111:8089/nezha/nezha-frontend:v0.1 .
+MAINTAINER aguncn@163.com
+
+COPY dist/ /usr/share/nginx/html/

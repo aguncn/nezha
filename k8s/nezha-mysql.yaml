@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nezha-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nezha-mysql
+      version: v5.7
+  template:
+    metadata:
+      labels:
+        name: nezha-mysql
+        version: v5.7
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          env:
+            - "name": "MYSQL_ROOT_PASSWORD"
+              "value": "password"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nezha-mysql
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30306
+      protocol: TCP
+  type: NodePort
+  selector:
+    name: nezha-mysql
+    version: v5.7
