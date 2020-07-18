@@ -20,7 +20,7 @@ func (pod *PodRepository) GetPod(where interface{}) *models.Pod {
 		"foreignkey": " Environment ",
 	}
 	if err := pod.Base.First(where, &modPod, other); err != nil {
-		pod.Log.Errorf("未找到相关文章", err)
+		pod.Log.Errorf("未找到相关Pod", err)
 	}
 	return &modPod
 }
@@ -35,7 +35,7 @@ func (pod *PodRepository) AddPod(modPod *models.Pod) bool {
 
 func (pod *PodRepository) UpdatePod(modPod *models.Pod) bool {
 	if err := pod.Base.Save(modPod); err != nil {
-		pod.Log.Errorf("更新应用失败", err)
+		pod.Log.Errorf("更新Pod失败", err)
 		return false
 	}
 	return true
@@ -49,7 +49,7 @@ func (pod *PodRepository) GetPods(PageNum uint, PageSize uint, total *uint64, wh
 	}
 	err := pod.Base.GetPages(&models.Pod{}, &modPods, PageNum, PageSize, total, where, other)
 	if err != nil {
-		pod.Log.Errorf("获取文章信息失败", err)
+		pod.Log.Errorf("获取Pod信息失败", err)
 	}
 	return &modPods
 }

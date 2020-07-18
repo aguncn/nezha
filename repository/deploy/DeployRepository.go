@@ -28,7 +28,7 @@ func (deploy *DeployRepository) GetDeploy(where interface{}) *models.Deploy {
 
 func (deploy *DeployRepository) AddDeploy(modDeploy *models.Deploy) bool {
 	if err := deploy.Base.Create(modDeploy); err != nil {
-		deploy.Log.Errorf("添加文章失败", err)
+		deploy.Log.Errorf("添加Deploy失败", err)
 		return false
 	}
 	return true
@@ -36,7 +36,7 @@ func (deploy *DeployRepository) AddDeploy(modDeploy *models.Deploy) bool {
 
 func (deploy *DeployRepository) UpdateDeploy(modDeploy *models.Deploy) bool {
 	if err := deploy.Base.Save(modDeploy); err != nil {
-		deploy.Log.Errorf("更新应用失败", err)
+		deploy.Log.Errorf("更新Deploy失败", err)
 		return false
 	}
 	return true
@@ -45,7 +45,7 @@ func (deploy *DeployRepository) UpdateDeploy(modDeploy *models.Deploy) bool {
 func (deploy *DeployRepository) UpdateDeployByCol(modDeploy *models.Deploy, where map[string]interface{}) bool {
 
 	if err := deploy.Source.DB().Model(&modDeploy).Updates(where).Error; err != nil {
-		deploy.Log.Errorf("更新应用失败", err)
+		deploy.Log.Errorf("更新Deploy失败", err)
 		return false
 	}
 	return true
@@ -65,7 +65,7 @@ func (deploy *DeployRepository) GetDeploys(PageNum uint, PageSize uint, total *u
 	db = db.Where(where)
 	err := db.Offset((PageNum - 1) * PageSize).Limit(PageSize).Find(&deploys).Error
 	if err != nil {
-		deploy.Log.Errorf("获取Applications失败", err)
+		deploy.Log.Errorf("获取Deploy失败", err)
 	}
 	err = db.Count(total).Error
 	if err != nil {
@@ -172,7 +172,7 @@ func (deploy *DeployRepository) ExistDeployByName(where interface{}) bool {
 func (deploy *DeployRepository) DeleteDeploy(id uint) bool {
 	var modDeploy models.Deploy
 	if err := deploy.Base.DeleteByID(modDeploy, id); err != nil {
-		deploy.Log.Errorf("删除应用失败", err)
+		deploy.Log.Errorf("删除Deploy失败", err)
 		return false
 	}
 	return true

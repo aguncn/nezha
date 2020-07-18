@@ -25,7 +25,7 @@ func (a *ProjectService) AddProject(Project *models.Project) bool {
 
 }
 
-//UpdateUser 更新用户
+//UpdateProject 更新Project
 func (a *ProjectService) UpdateProject(Project *models.Project) bool {
 	if a.Repository.ExistProjectByName(Project) {
 		return false
@@ -34,7 +34,7 @@ func (a *ProjectService) UpdateProject(Project *models.Project) bool {
 	}
 }
 
-//GetArticles 获取Project信息
+//GetProjects 获取Project信息
 func (a *ProjectService) GetProjects(page, pagesize uint, maps interface{}) interface{} {
 	res := make(map[string]interface{}, 2)
 	var total uint64

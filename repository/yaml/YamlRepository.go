@@ -20,7 +20,7 @@ func (yaml *YamlRepository) GetYaml(where interface{}) *models.Yaml {
 		"foreignkey": " Environment ",
 	}
 	if err := yaml.Base.First(where, &modYaml, other); err != nil {
-		yaml.Log.Errorf("未找到相关文章", err)
+		yaml.Log.Errorf("未找到相关Yaml", err)
 	}
 	return &modYaml
 }
@@ -58,7 +58,7 @@ func (yaml *YamlRepository) GetYamls(PageNum uint, PageSize uint, total *uint64,
 	db = db.Where(where)
 	err := db.Offset((PageNum - 1) * PageSize).Limit(PageSize).Find(&yamls).Error
 	if err != nil {
-		yaml.Log.Errorf("获取Applications失败", err)
+		yaml.Log.Errorf("获取Yaml失败", err)
 	}
 	err = db.Count(total).Error
 	if err != nil {
@@ -89,7 +89,7 @@ func (yaml *YamlRepository) ExistYamlByName(where interface{}) bool {
 func (yaml *YamlRepository) DeleteYaml(id uint) bool {
 	var modYaml models.Yaml
 	if err := yaml.Base.DeleteByID(modYaml, id); err != nil {
-		yaml.Log.Errorf("删除应用失败", err)
+		yaml.Log.Errorf("删除Yaml失败", err)
 		return false
 	}
 	return true

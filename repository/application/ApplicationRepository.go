@@ -34,7 +34,7 @@ func (a *ApplicationRepository) GetApplication(where interface{}) *models.Applic
 //AddApplication 新增Application
 func (a *ApplicationRepository) AddApplication(application *models.Application) bool {
 	if err := a.Base.Create(application); err != nil {
-		a.Log.Errorf("添加文章失败", err)
+		a.Log.Errorf("添加Application失败", err)
 		return false
 	}
 	return true
@@ -43,7 +43,7 @@ func (a *ApplicationRepository) AddApplication(application *models.Application) 
 //UpdateApplication 更新Application
 func (a *ApplicationRepository) UpdateApplication(application *models.Application) bool {
 	if err := a.Base.Save(application); err != nil {
-		a.Log.Errorf("更新应用失败", err)
+		a.Log.Errorf("更新Application失败", err)
 		return false
 	}
 	return true
@@ -103,11 +103,11 @@ func (a *ApplicationRepository) ExistApplicationByName(where interface{}) bool {
 	return true
 }
 
-//DeleteApplication 删除应用
+//DeleteApplication 删除Application
 func (a *ApplicationRepository) DeleteApplication(id uint) bool {
 	var application models.Application
 	if err := a.Base.DeleteByID(application, id); err != nil {
-		a.Log.Errorf("删除应用失败", err)
+		a.Log.Errorf("删除Application失败", err)
 		return false
 	}
 	return true
