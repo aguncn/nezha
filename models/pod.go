@@ -28,16 +28,16 @@ type Pod struct {
 	K8s           K8s         `gorm:"save_associations:false"`
 }
 
-//BeforeCreate CreatedOn赋值
+//BeforeCreate CreatedAt赋值
 func (pod *Pod) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now().Unix())
+	scope.SetColumn("CreatedAt", time.Now().Unix())
 
 	return nil
 }
 
-//BeforeUpdate ModifiedOn赋值
+//BeforeUpdate UpdateAt赋值
 func (pod *Pod) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
+	scope.SetColumn("UpdateAt", time.Now().Unix())
 
 	return nil
 }

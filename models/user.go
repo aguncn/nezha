@@ -21,9 +21,9 @@ type User struct {
 	Application *[]Application
 }
 
-//BeforeCreate CreatedOn赋值
+//BeforeCreate CreatedAt赋值
 func (user *User) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now())
+	scope.SetColumn("CreatedAt", time.Now())
 	return nil
 }
 
@@ -34,9 +34,9 @@ func (user *User) BeforeSave(scope *gorm.Scope) (err error) {
 	return nil
 }
 
-//BeforeUpdate ModifiedOn赋值
+//BeforeUpdate UpdateAt赋值
 func (user *User) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now())
+	scope.SetColumn("UpdateAt", time.Now())
 	return nil
 }
 

@@ -21,14 +21,14 @@ type Project struct {
 
 //BeforeCreate CreatedOn赋值
 func (project *Project) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now().Unix())
+	scope.SetColumn("CreatedAt", time.Now().Unix())
 
 	return nil
 }
 
-//BeforeUpdate ModifiedOn赋值
+//BeforeUpdate UpdateAt赋值
 func (project *Project) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
+	scope.SetColumn("UpdateAt", time.Now().Unix())
 
 	return nil
 }

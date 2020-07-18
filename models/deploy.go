@@ -33,14 +33,14 @@ type Deploy struct {
 	Environment   Environment `gorm:"save_associations:false"`
 }
 
-//BeforeCreate CreatedOn赋值
+//BeforeCreate CreatedAt赋值
 func (deploy *Deploy) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("CreatedAt", time.Now().Unix())
 
 	return nil
 }
 
-//BeforeUpdate ModifiedOn赋值
+//BeforeUpdate UpdatedAt赋值
 func (deploy *Deploy) BeforeUpdate(scope *gorm.Scope) error {
 	scope.SetColumn("UpdatedAt", time.Now().Unix())
 

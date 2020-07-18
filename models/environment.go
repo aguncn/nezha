@@ -17,16 +17,16 @@ type Environment struct {
 	Description string `json:"description"`
 }
 
-//BeforeCreate CreatedOn赋值
+//BeforeCreate CreatedAt赋值
 func (environment *Environment) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now().Unix())
+	scope.SetColumn("CreatedAt", time.Now().Unix())
 
 	return nil
 }
 
-//BeforeUpdate ModifiedOn赋值
+//BeforeUpdate UpdateAt赋值
 func (environment *Environment) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
+	scope.SetColumn("UpdateAt", time.Now().Unix())
 
 	return nil
 }

@@ -23,7 +23,7 @@ type Release struct {
 	Project     Project `gorm:"save_associations:false"`
 }
 
-//BeforeCreate CreatedOn赋值
+//BeforeCreate CreatedAt赋值
 func (release *Release) BeforeCreate(scope *gorm.Scope) error {
 	scope.SetColumn("CreatedAt", time.Now().Unix())
 
