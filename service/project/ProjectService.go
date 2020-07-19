@@ -44,7 +44,7 @@ func (a *ProjectService) GetProjects(page, pagesize uint, maps interface{}) inte
 	return &res
 }
 
-//DeleteProject 删除用户
+//DeleteProject 删除Project
 func (a *ProjectService) DeleteProject(id uint) bool {
 	return a.Repository.DeleteProject(id)
 }
