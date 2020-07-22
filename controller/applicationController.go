@@ -126,7 +126,7 @@ func (a *Application) GetApplications(c *gin.Context) {
 	RespData(c, http.StatusOK, code, data)
 }
 
-//DeleteApplication 删除Applications
+//DeleteApplication 删除Application
 func (a *Application) DeleteApplication(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	code := codes.SUCCESS

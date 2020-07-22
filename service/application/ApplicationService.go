@@ -7,7 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// ArticleService 注入IArticleRepo
+// ApplicationService 注入IApplicationRepository
 type ApplicationService struct {
 	Repository appRep.IApplicationRepository `inject:""`
 }
@@ -27,7 +27,7 @@ func (a *ApplicationService) AddApplication(application *models.Application) boo
 	}
 }
 
-//UpdateUser 更新用户
+//UpdateApplication 更新Application
 func (a *ApplicationService) UpdateApplication(application *models.Application) bool {
 	/*
 		此处需要改进，先注释。因为如果用户不改名称时，也会和已有名称冲突。要先判断，即ID不是自己的，但名称一样。
@@ -40,7 +40,7 @@ func (a *ApplicationService) UpdateApplication(application *models.Application) 
 	return a.Repository.UpdateApplication(application)
 }
 
-//GetArticles 获取Application信息
+//GetApplications 获取Applications信息
 func (a *ApplicationService) GetApplications(page, pagesize uint, maps interface{}) interface{} {
 	res := make(map[string]interface{}, 2)
 	var total uint64
@@ -50,7 +50,7 @@ func (a *ApplicationService) GetApplications(page, pagesize uint, maps interface
 	return &res
 }
 
-//GetArticles 获取Application信息
+//RecentApplications 获取最近Application信息
 func (a *ApplicationService) RecentApplications(maps interface{}, limit uint) interface{} {
 	//res := make(map[string]interface{})
 	applications := a.Repository.RecentApplications(maps, limit)
@@ -58,7 +58,7 @@ func (a *ApplicationService) RecentApplications(maps interface{}, limit uint) in
 	return applications
 }
 
-//DeleteApplication 删除用户
+//DeleteApplication 删除Application
 func (a *ApplicationService) DeleteApplication(id uint) bool {
 	return a.Repository.DeleteApplication(id)
 }
