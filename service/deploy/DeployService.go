@@ -108,7 +108,7 @@ func (deploy *DeployService) SubmitDeploy(modDeploy *models.Deploy) (bool, strin
 	}
 	yamlFile.WriteString(modDeploy.Yaml)
 	defer yamlFile.Close()
-	//生成yaml文件
+	//生成kubeconfig文件
 	k8sFile, err := os.Create(k8sPath)
 	if err != nil {
 		fmt.Println(err.Error())

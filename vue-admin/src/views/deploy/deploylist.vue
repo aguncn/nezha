@@ -277,6 +277,7 @@ export default {
       self.dataForm.user_id = self.userId
       self.dataForm.created_by = self.userName
       createDeploy(self.dataForm).then(res => {
+        console.log(self.dataForm)
         this.log = '生成发布批次\n'
         this.log += res['msg']
         this.log += '\n'
