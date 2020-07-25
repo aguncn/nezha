@@ -94,7 +94,7 @@
         <el-input
           v-model="log"
           type="textarea"
-          :rows="5"
+          :rows="10"
           placeholder="发布日志输出"
           :disabled="true"
         />
@@ -277,7 +277,6 @@ export default {
       self.dataForm.user_id = self.userId
       self.dataForm.created_by = self.userName
       createDeploy(self.dataForm).then(res => {
-        console.log(self.dataForm)
         this.log = '生成发布批次\n'
         this.log += res['msg']
         this.log += '\n'
@@ -289,6 +288,8 @@ export default {
           return
         }
         submitDeploy(self.dataForm).then(res => {
+          console.log(self.dataForm)
+          console.log(res)
           this.log += '应用到K8s集群\n'
           this.log += res['msg']
           this.log += '\n'
