@@ -83,8 +83,7 @@ import { fetchApplication, createApplication, updateApplication } from '@/api/ap
           name: '应用名称',
           description: '描述',
           project_id: '',
-          git: 'git',
-          jenkins: 'jenkins'
+          harbor: 'harbor'
         },
         dataFormRules: {
           name: [
